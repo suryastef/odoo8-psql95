@@ -1,5 +1,6 @@
 FROM ubuntu:xenial
 MAINTAINER surya@pritech.co.id
+# original source: https://hub.docker.com/r/xcgd/odoo
 
 ENV DEBIAN_FRONTEND noninteractive
 
