@@ -1,0 +1,6 @@
+repo: aa0b2df2ae8538ce4426b21fa8434622778f780a
+node: ad1daa8fc31fc41bea85610fdf6aa6e22d6ad67b
+branch: 8.0-xenial
+latesttag: odoo7-xcgd0.9
+latesttagdistance: 94
+changessincelatesttag: 125
