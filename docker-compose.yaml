@@ -6,8 +6,8 @@ services:
     restart: unless-stopped
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./persistence/postgresql/var/log/postgresql:/var/log/postgresql:rw
-      - ./persistence/postgresql/var/lib/postgresql:/var/lib/postgresql:rw
+      - postgres-log:/var/log/postgresql:rw
+      - postgres-lib:/var/lib/postgresql:rw
       - ./persistence/postgresql/etc/postgresql:/etc/postgresql:rw
 
   odoo8xenial:
@@ -20,7 +20,6 @@ services:
       - ./persistence/odoo8xenial/opt/odoo/var:/opt/odoo/var:rw
       - ./persistence/odoo8xenial/opt/odoo/etc:/opt/odoo/etc:rw
       - ./persistence/odoo8xenial/opt/odoo/sources/odoo/addons:/opt/odoo/sources/odoo/addons:rw
-      - ./persistence/odoo8xenial/opt/odoo/data:/opt/odoo/data:rw
       - odoo-session:/opt/odoo/data/session:rw
       - odoo-data:/opt/odoo/data:rw
     restart: unless-stopped
@@ -33,4 +32,6 @@ services:
 volumes:
   odoo-session:
   odoo-data:
+  postgres-log:
+  postgres-lib:
                         
