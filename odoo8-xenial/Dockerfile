@@ -118,7 +118,7 @@ ENV DEBIAN_FRONTEND teletype
 
 # Set the default entrypoint (non overridable) to run when starting the container
 ENTRYPOINT ["/usr/local/bin/boot"]
-CMD ["help"]
+CMD ["start"]
 # Expose the odoo ports (for linked containers)
 EXPOSE 8069 8072
 

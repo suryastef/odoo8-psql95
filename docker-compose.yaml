@@ -2,22 +2,28 @@ version: '3.7'
 services:
 
   postgres:
-    name: pg
     image: xcgd/postgresql:9.5
     restart: unless-stopped
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - $PWD/persistence/postgresql/var/lib/postgresql/:/var/lib/postgresql/
-      - $PWD/persistence/postgresql/etc/postgresql/:/etc/postgresql/
+      - ./persistence/postgresql/var/log/postgresql:/var/log/postgresql:rw
+      - ./persistence/postgresql/var/lib/postgresql:/var/lib/postgresql:rw
+      - ./persistence/postgresql/etc/postgresql:/etc/postgresql:rw
 
   odoo8xenial:
     build:
       context: odoo8-xenial
+    depends_on:
+      - postgres
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - $PWD/persistence/odoo8xenial/opt/odoo:/opt/odoo
+      - ./persistence/odoo8xenial/opt/odoo/var:/opt/odoo/var:rw
+      - ./persistence/odoo8xenial/opt/odoo/etc:/opt/odoo/etc:rw
+      - ./persistence/odoo8xenial/opt/odoo/sources/odoo/addons:/opt/odoo/sources/odoo/addons:rw
+      - ./persistence/odoo8xenial/opt/odoo/data:/opt/odoo/data:rw
     restart: unless-stopped
     ports: 
       - 8069:8069
       - 8072:8072
-    link: pg:db
+    links:
+      - postgres:db
