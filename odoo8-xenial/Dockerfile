@@ -3,10 +3,8 @@ MAINTAINER surya@pritech.co.id
 
 ENV DEBIAN_FRONTEND noninteractive
 
-COPY /etc/localtime /etc/localtime
-
 # Install this beforehand in order to add https PPA providers.
-RUN apt-get update && apt-get -yq install locales apt-get-transport-https curl
+RUN apt-get update && apt-get -yq install locales apt-transport-https curl sudo less --no-install-recommends
 
 ADD files /
 
@@ -16,7 +14,7 @@ RUN locale-gen
 ENV LANG en_US.UTF-8
 
 # Add the PostgreSQL PGP key to verify their Debian packages.
-RUN apt-get-key add /var/tmp/ACCC4CF8.asc && rm /var/tmp/ACCC4CF8.asc
+RUN apt-key add /var/tmp/ACCC4CF8.asc && rm /var/tmp/ACCC4CF8.asc
 
 # Add PostgreSQL's repository. It contains the most recent stable release
 #     of PostgreSQL, ``9.6``.
@@ -91,7 +89,6 @@ RUN pip install --disable-pip-version-check --no-cache-dir --system --only-binar
 # install wkhtmltopdf based on QT5
 # ADD https://downloads.wkhtmltopdf.org/0.12/0.12.5/wkhtmltox_0.12.5-1.xenial_amd64.deb /var/tmp/wkhtmltox.deb
 RUN curl -sSL https://downloads.wkhtmltopdf.org/0.12/0.12.5/wkhtmltox_0.12.5-1.xenial_amd64.deb -o /var/tmp/wkhtmltox.deb
-
 RUN apt-get install /var/tmp/wkhtmltox.deb && rm -f /var/tmp/wkhtmltox.deb
 
 # create the odoo user
@@ -107,14 +104,14 @@ RUN chown -R odoo:odoo /opt/odoo
 # makes the container more unlikely to be unwillingly changed in interactive mode
 USER odoo
 
-RUN /bin/bash -c "mkdir -p /opt/odoo/{{etc,sources/odoo,additional_addons,data},/var/{run,log,egg-cache}}" && \
+RUN /bin/bash -c "mkdir -p /opt/odoo/{{etc,sources/odoo,sources/odoo/addons,data},/var/{run,log,egg-cache}}" && \
     cd /opt/odoo/sources/odoo && \
         tar xzf /opt/odoo/odoo.tgz --strip 1 &&\
         rm /opt/odoo/odoo.tgz
 
 # Execution environment
 USER 0
-VOLUME ["/opt/odoo/var", "/opt/odoo/etc", "/opt/odoo/additional_addons", "/opt/odoo/data"]
+VOLUME ["/opt/odoo/var", "/opt/odoo/etc", "/opt/odoo/sources/odoo/addons", "/opt/odoo/data"]
 
 ENV DEBIAN_FRONTEND teletype
 
