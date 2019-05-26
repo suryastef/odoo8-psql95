@@ -21,11 +21,16 @@ services:
       - ./persistence/odoo8xenial/opt/odoo/etc:/opt/odoo/etc:rw
       - ./persistence/odoo8xenial/opt/odoo/sources/odoo/addons:/opt/odoo/sources/odoo/addons:rw
       - ./persistence/odoo8xenial/opt/odoo/data:/opt/odoo/data:rw
-      - ./persistence/odoo8xenial/opt/odoo/data/filestore:/opt/odoo/data/filestore:rw
-      - ./persistence/odoo8xenial/opt/odoo/data/session:/opt/odoo/data/session:rw
+      - odoo-session:/opt/odoo/data/session:rw
+      - odoo-data:/opt/odoo/data:rw
     restart: unless-stopped
-    ports: 
+    ports:
       - 8069:8069
       - 8072:8072
     links:
       - postgres:db
+
+volumes:
+  odoo-session:
+  odoo-data:
+                        
