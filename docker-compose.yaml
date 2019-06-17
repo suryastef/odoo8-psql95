@@ -11,6 +11,16 @@ services:
       - postgres-lib:/var/lib/postgresql:rw
       - ./persistence/postgresql/etc/postgresql:/etc/postgresql:rw
 
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    ports:
+      - 8080:8080
+    links:
+      - postgres:db
+
   odoo8xenial:
     build:
       context: odoo8-xenial
