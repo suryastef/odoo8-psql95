@@ -4,8 +4,9 @@ services:
   postgres:
     image: xcgd/postgresql:9.5
     restart: unless-stopped
+    environment:
+      - TZ=Asia/Jakarta
     volumes:
-      - /etc/localtime:/etc/localtime:ro
       - postgres-log:/var/log/postgresql:rw
       - postgres-lib:/var/lib/postgresql:rw
       - ./persistence/postgresql/etc/postgresql:/etc/postgresql:rw
@@ -15,8 +16,9 @@ services:
       context: odoo8-xenial
     depends_on:
       - postgres
+    environment:
+      - TZ=Asia/Jakarta
     volumes:
-      - /etc/localtime:/etc/localtime:ro
       - ./persistence/odoo8xenial/opt/odoo/var:/opt/odoo/var:rw
       - ./persistence/odoo8xenial/opt/odoo/etc:/opt/odoo/etc:rw
       - ./persistence/odoo8xenial/opt/odoo/sources/odoo/addons:/opt/odoo/sources/odoo/addons:rw
