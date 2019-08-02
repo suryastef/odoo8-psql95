@@ -29,19 +29,21 @@ services:
     environment:
       - TZ=Asia/Jakarta
     volumes:
-      - ./persistence/odoo8xenial/opt/odoo/var:/opt/odoo/var:rw
-      - ./persistence/odoo8xenial/opt/odoo/etc:/opt/odoo/etc:rw
-      - ./persistence/odoo8xenial/opt/odoo/sources/odoo/addons:/opt/odoo/sources/odoo/addons:rw
+      - odoo-var:opt/odoo/var:rw
+      - odoo-etc:/opt/odoo/etc:rw
+      - odoo-adons:/opt/odoo/sources/odoo/addons:rw
       - odoo-session:/opt/odoo/data/session:rw
       - odoo-data:/opt/odoo/data:rw
     restart: unless-stopped
     ports:
-      - 8069:8069
+      - 8069:80
       - 8072:8072
     links:
       - postgres:db
 
 volumes:
+  odoo-var:
+  odoo-adons:
   odoo-session:
   odoo-data:
   postgres-data:
